@@ -36,6 +36,28 @@ REQUIRED = {
         "ODR-036",
         "ODR-038",
     ],
+    "docs/reconciliation/IROKA-ANDROID-A2-RECONCILIATION.md": [
+        "# AEGIS ONE",
+        "AEGIS-A2-RECON-001",
+        "A2-R01",
+        "A2-R02",
+        "A2-R03",
+        "A2-R04",
+        "A2-R05",
+        "A2-R06",
+        "A2-R07",
+        "A2-R08",
+        "A2-R09",
+        "A2-R10",
+        "A2-R11",
+        "A2 is NOT READY FOR CLOSURE",
+        "G05 local designation table",
+        "G02 canonical",
+        "ODR-017",
+        "ODR-023",
+        "ODR-032",
+        "ODR-045",
+    ],
 }
 
 
