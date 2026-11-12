@@ -21,7 +21,7 @@ Original PR workflow run [43126436817](https://github.com/akefadaka-git/aegis-on
 
 The workflow was corrected to check out `github.event.pull_request.head.sha` for pull-request events and `github.sha` for push/manual events. The corrected workflow passed on exact source head `528bf95dcda950850f0d64f927a80550874f6c39` in both [push run 43126909777](https://github.com/akefadaka-git/aegis-one/actions/runs/43126909777) and [pull-request run 43126917577](https://github.com/akefadaka-git/aegis-one/actions/runs/43126917577). Both runs completed successfully. The PR run log explicitly checked out `528bf95` and printed `DOCUMENTATION VALIDATION: PASS`.
 
-**Exact-head CI at `528bf95`: PASS.** The check validates the baseline and Owner decision summary structurally; it does not prove implementation, Android behavior, or security assurance. The PR had no submitted reviews or inline review threads at the time of inspection. It remains draft and unmerged.
+**Exact-head CI at `528bf95`: PASS.** The check validates the baseline and Owner decision summary structurally; it does not prove implementation, Android behavior, or security assurance. A later validator expansion at head `04f69e27859228eb2234287db2e786d26e75b914` correctly exposed missing explicit ODR markers in this reconciliation document and failed; the report and validator are being corrected together before final exact-head verification. The PR had no submitted reviews or inline review threads at the time of inspection. It remains draft and unmerged.
 
 ## 3. IROKA dependency reconciliation
 
@@ -117,11 +117,29 @@ The Samsung Galaxy A16 (SM-A165F) evidence remains screenshot-observed, not inde
 
 No diagnostic app installation, factory reset, Device Owner/Profile Owner enrollment, setting change, bootloader/firmware change, VPN configuration, or lockdown activation is authorized by this record.
 
+## 4.5 Binding Owner Decision Register constraints
+
+The authoritative source remains `AEGIS-A2-ODR-001 v1.1` and Architecture Amendment v1.3. The repository's Owner Decision Register file is a reference summary, not a replacement for the complete 47-decision source. Preserve every condition and rationale in the authoritative version.
+
+**Excluded**
+- **ODR-017:** absolute prevention of AEGIS ONE app removal.
+- **ODR-023:** global interception of all Android file operations.
+- **ODR-032:** universal inspection of encrypted third-party traffic.
+- **ODR-045:** AI-authorized irreversible actions.
+
+**Deferred**
+- **ODR-012:** automatic software-backed security fallback.
+- **ODR-016:** Profile Owner / Work Profile integration.
+- **ODR-036:** camera capture on suspicious activity.
+- **ODR-038:** remote data wipe.
+
+These dispositions are binding constraints on the capability matrix and any future implementation plan. A platform API that technically offers a related capability does not override an Owner exclusion or deferred decision.
+
 ## 5. Consolidated A2 finding register
 
 | ID | Domain | Status | Closure evidence required |
 |---|---|---|---|
-| A2-R01 | AEGIS PR exact-head CI | **PASS** at `528bf95dcda950850f0d64f927a80550874f6c39` | [Push run 43126909777](https://github.com/akefadaka-git/aegis-one/actions/runs/43126909777) and [PR run 43126917577](https://github.com/akefadaka-git/aegis-one/actions/runs/43126917577); both checked out the exact head and passed |
+| A2-R01 | AEGIS PR exact-head CI | **PASS** at `528bf95`; follow-up at `04f69e2` **FAIL** due missing ODR markers in the expanded validator | Prior PASS: [push run 43126909777](https://github.com/akefadaka-git/aegis-one/actions/runs/43126909777), [PR run 43126917577](https://github.com/akefadaka-git/aegis-one/actions/runs/43126917577). Correct ODR coverage and rerun exact final head. |
 | A2-R02 | G01 issuer reviewer-key binding | **PARTIAL** | Real authoritative resolver, revocation freshness evidence, independent review |
 | A2-R03 | G02 organization authority | **MISSING / FAIL-CLOSED** | Owner-signed canonical organization/delegation provider and adversarial tests |
 | A2-R04 | G05 local designation table | **UNRESOLVED CONFLICT** | G02 canonical source integration; no G05-owned competing authority; stale/revoked projection tests |
