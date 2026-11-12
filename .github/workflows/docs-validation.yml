@@ -29,8 +29,13 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - name: Check out source
+      - name: Check out exact source revision
         uses: actions/checkout@v4
+        with:
+          # For pull_request events, test the source branch head rather than
+          # GitHub's synthetic refs/pull/<n>/merge commit. For push and manual
+          # dispatch events, test the triggering ref's commit.
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
