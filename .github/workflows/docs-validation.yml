@@ -1,0 +1,44 @@
+name: AEGIS ONE documentation validation
+
+on:
+  pull_request:
+    paths:
+      - "docs/**"
+      - "scripts/validate_architecture_docs.py"
+      - ".github/workflows/docs-validation.yml"
+  push:
+    branches:
+      - main
+      - "architecture/**"
+    paths:
+      - "docs/**"
+      - "scripts/validate_architecture_docs.py"
+      - ".github/workflows/docs-validation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: docs-validation-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  documentation:
+    name: Validate architecture documentation
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out exact source revision
+        uses: actions/checkout@v4
+        with:
+          # For pull_request events, test the source branch head rather than
+          # GitHub's synthetic refs/pull/<n>/merge commit. For push and manual
+          # dispatch events, test the triggering ref's commit.
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate required architecture and governance markers
+        run: python scripts/validate_architecture_docs.py
