@@ -21,7 +21,9 @@ Original PR workflow run [43126436817](https://github.com/akefadaka-git/aegis-on
 
 The workflow was corrected to check out `github.event.pull_request.head.sha` for pull-request events and `github.sha` for push/manual events. The corrected workflow passed on exact source head `528bf95dcda950850f0d64f927a80550874f6c39` in both [push run 43126909777](https://github.com/akefadaka-git/aegis-one/actions/runs/43126909777) and [pull-request run 43126917577](https://github.com/akefadaka-git/aegis-one/actions/runs/43126917577). Both runs completed successfully. The PR run log explicitly checked out `528bf95` and printed `DOCUMENTATION VALIDATION: PASS`.
 
-**Exact-head CI at `528bf95`: PASS.** The check validates the baseline and Owner decision summary structurally; it does not prove implementation, Android behavior, or security assurance. A later validator expansion at head `04f69e27859228eb2234287db2e786d26e75b914` correctly exposed missing explicit ODR markers in this reconciliation document and failed; the report and validator are being corrected together before final exact-head verification. The PR had no submitted reviews or inline review threads at the time of inspection. It remains draft and unmerged.
+The validator expansion at `04f69e27859228eb2234287db2e786d26e75b914` first failed because the reconciliation document did not explicitly enumerate all binding ODR exclusions. The report was corrected to include all four exclusions and all four deferrals, and the validator now checks three documents, including this reconciliation record.
+
+**Final exact-head CI at `b65159f50d8bd7a817af47f95fbcfbb70427f1da`: PASS.** Push run [43127082664](https://github.com/akefadaka-git/aegis-one/actions/runs/43127082664) and PR run [43127092137](https://github.com/akefadaka-git/aegis-one/actions/runs/43127092137) both completed successfully, checked out exactly `b65159f`, and printed `DOCUMENTATION VALIDATION: PASS` / `Validated 3 documents and all required governance markers.` This is structural documentation validation, not implementation, Android behavior, or security assurance. The PR had no submitted reviews or inline review threads at the time of inspection. It remains draft and unmerged.
 
 ## 3. IROKA dependency reconciliation
 
@@ -139,7 +141,7 @@ These dispositions are binding constraints on the capability matrix and any futu
 
 | ID | Domain | Status | Closure evidence required |
 |---|---|---|---|
-| A2-R01 | AEGIS PR exact-head CI | **PASS** at `528bf95`; follow-up at `04f69e2` **FAIL** due missing ODR markers in the expanded validator | Prior PASS: [push run 43126909777](https://github.com/akefadaka-git/aegis-one/actions/runs/43126909777), [PR run 43126917577](https://github.com/akefadaka-git/aegis-one/actions/runs/43126917577). Correct ODR coverage and rerun exact final head. |
+| A2-R01 | AEGIS PR exact-head CI | **PASS** at `b65159f50d8bd7a817af47f95fbcfbb70427f1da` | [Push run 43127082664](https://github.com/akefadaka-git/aegis-one/actions/runs/43127082664) and [PR run 43127092137](https://github.com/akefadaka-git/aegis-one/actions/runs/43127092137); both checked out exact head and validated all 3 documents. |
 | A2-R02 | G01 issuer reviewer-key binding | **PARTIAL** | Real authoritative resolver, revocation freshness evidence, independent review |
 | A2-R03 | G02 organization authority | **MISSING / FAIL-CLOSED** | Owner-signed canonical organization/delegation provider and adversarial tests |
 | A2-R04 | G05 local designation table | **UNRESOLVED CONFLICT** | G02 canonical source integration; no G05-owned competing authority; stale/revoked projection tests |
