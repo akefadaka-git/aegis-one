@@ -19,9 +19,9 @@ PR: https://github.com/akefadaka-git/aegis-one/pull/1
 
 Original PR workflow run [43126436817](https://github.com/akefadaka-git/aegis-one/actions/runs/43126436817) completed successfully. Its job checked out GitHub's synthetic PR merge ref and ran at merge commit `9370104168e13b82d8a4187ce39f26f73f7eb232`, which merged source head `773972aafca38670bcb9e353e2f7f097db5fa9c8` into base `94d95d4c9a6a47a444ced56708b66fb9f2cba215`. The validator passed, but this was a PR merge-ref check, not a strict source-head-only check.
 
-The workflow was therefore corrected to check out `github.event.pull_request.head.sha` for pull-request events and `github.sha` for push/manual events. Exact-head evidence must be recorded against the resulting PR head after this correction. Until that run is inspected and its checkout SHA equals the PR head SHA, strict exact-head CI remains **UNRESOLVED**.
+The workflow was corrected to check out `github.event.pull_request.head.sha` for pull-request events and `github.sha` for push/manual events. The corrected workflow passed on exact source head `528bf95dcda950850f0d64f927a80550874f6c39` in both [push run 43126909777](https://github.com/akefadaka-git/aegis-one/actions/runs/43126909777) and [pull-request run 43126917577](https://github.com/akefadaka-git/aegis-one/actions/runs/43126917577). Both runs completed successfully. The PR run log explicitly checked out `528bf95` and printed `DOCUMENTATION VALIDATION: PASS`.
 
-The PR had no submitted reviews or inline review threads at the time of inspection. It remains draft and unmerged.
+**Exact-head CI at `528bf95`: PASS.** The check validates the baseline and Owner decision summary structurally; it does not prove implementation, Android behavior, or security assurance. The PR had no submitted reviews or inline review threads at the time of inspection. It remains draft and unmerged.
 
 ## 3. IROKA dependency reconciliation
 
@@ -47,7 +47,7 @@ Reviewed IROKA `main` at `1a6f30cc3e64b8551f8e725c4cad8fcc3fa2c472`, plus the na
 - G05's `G02AuthorizationAuthority::authorize_organization_scope` has a default DENY implementation. The inspected `KernelG02AuthorizationAdapter` implements global G05 capability authorization but does not override that organization-scope method.
 - The G02 branch contains the authority contract and readiness decision, but no verified organization-authority provider implementation or exact-head CI evidence was established.
 
-**Disposition: MISSING / FAIL-CLOSED.** The authority model is decided; the provider is not implemented or verified. Global capability authorization, tenant membership, Owner approval, and reviewer designation must not be conflated. Until the canonical G02 provider exists, organization-scoped reviewer designation and revocation must remain denied.
+**Disposition: MISSING / FAIL-CLOSED.** The authority model is decided; the provider is not implemented or verified. Global capability authorization, tenant membership, Owner approval, and reviewer designation must not be conflated. Until the canonical G02 provider exists, organization-scoped reviewer designation and revocation must remain denied. Family/guardian authority is also a separate domain: enterprise organization roles must not be reused as guardian/child authority. AEGIS still needs an explicit guardian relationship, delegated caregiver scope, child-appropriate consent, revocation, emergency-contact and age/ownership transfer contract.
 
 ### 3.3 G05 — memory approval integration and the local designation conflict
 
@@ -121,7 +121,7 @@ No diagnostic app installation, factory reset, Device Owner/Profile Owner enroll
 
 | ID | Domain | Status | Closure evidence required |
 |---|---|---|---|
-| A2-R01 | AEGIS PR exact-head CI | **UNRESOLVED** until corrected workflow checkout SHA equals PR head | Run URL, event, checked-out SHA and PASS log |
+| A2-R01 | AEGIS PR exact-head CI | **PASS** at `528bf95dcda950850f0d64f927a80550874f6c39` | [Push run 43126909777](https://github.com/akefadaka-git/aegis-one/actions/runs/43126909777) and [PR run 43126917577](https://github.com/akefadaka-git/aegis-one/actions/runs/43126917577); both checked out the exact head and passed |
 | A2-R02 | G01 issuer reviewer-key binding | **PARTIAL** | Real authoritative resolver, revocation freshness evidence, independent review |
 | A2-R03 | G02 organization authority | **MISSING / FAIL-CLOSED** | Owner-signed canonical organization/delegation provider and adversarial tests |
 | A2-R04 | G05 local designation table | **UNRESOLVED CONFLICT** | G02 canonical source integration; no G05-owned competing authority; stale/revoked projection tests |
@@ -131,6 +131,7 @@ No diagnostic app installation, factory reset, Device Owner/Profile Owner enroll
 | A2-R08 | Android/Knox capabilities | **PARTIAL / UNKNOWN** | Per-API model/API/license matrix and separately authorized device evidence |
 | A2-R09 | Offline/emergency execution | **NOT TESTED** | Background/force-stop/reboot/offline test plan and authorized device test |
 | A2-R10 | Cross-domain assurance | **NOT RUN** | Independent A4 review and adversarial end-to-end provider-failure matrix |
+| A2-R11 | Family/guardian authority | **MISSING** | Owner-approved guardian/child relationship, scoped caregiver delegation, consent, revocation and emergency authority contract |
 
 ## 6. A2 closure decision
 
