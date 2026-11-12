@@ -122,3 +122,12 @@ This repository baseline and its documentation validation do not close A1/A2, au
 ## 11. Acceptance evidence required
 
 A future A2 closure record must identify the exact source references and commit heads reviewed, all findings and dispositions, unresolved risks, authoritative Owner decisions, and the exact document commit. A future A4 record must identify exact-head CI results, test coverage, device/API matrix, independent security review, and reproducible evidence. No status is PASS or VERIFIED-CLOSED merely because this document exists.
+
+
+## 12. Current dependency reconciliation
+
+The current read-only evidence record is [IROKA and Android A2 Reconciliation](../reconciliation/IROKA-ANDROID-A2-RECONCILIATION.md). It supersedes the generic status of the open items in Section 10 with a versioned finding register and exact IROKA source references.
+
+The reconciliation remains **PARTIAL** and A2 is **NOT READY FOR CLOSURE**. In particular, the G02 canonical organization-authority provider is missing, G05's local reviewer-designation table is not reconciled with the Owner-selected G02 authority model, G08's candidate branch is divergent, and AEGIS-specific Android/Knox/device-command capabilities remain unverified.
+
+No A3 implementation or privileged device operation is authorized by this baseline.
